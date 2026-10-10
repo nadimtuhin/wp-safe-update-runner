@@ -1,0 +1,28 @@
+{
+  "name": "wp-safe-update-runner",
+  "version": "1.0.0",
+  "description": "Automated, resilient WordPress and WooCommerce plugin update runner with pre-update backups, WP-CLI execution, HTTP smoke tests, and automated rollback",
+  "bin": {
+    "wp-safe-update": "./bin/wp-safe-update"
+  },
+  "scripts": {
+    "test": "bash test/run-test.sh",
+    "smoke-test": "bun run src/smoke-test.ts"
+  },
+  "keywords": [
+    "wordpress",
+    "woocommerce",
+    "wp-cli",
+    "plugins",
+    "update-runner",
+    "automated-rollback",
+    "smoke-testing",
+    "devops"
+  ],
+  "author": "Nadim Tuhin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nadimtuhin/wp-safe-update-runner.git"
+  }
+}
