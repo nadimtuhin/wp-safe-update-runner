@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Minimal WP-CLI stub used by test/run-test.sh to exercise the live (non-mock)
+# code paths without a real WordPress install.
+#
+#   WP_STUB_LOG           file that receives one line of argv per invocation
+#   WP_STUB_UPDATE_MODE   "ok" (default) | "fail" | "corrupt-and-fail"
+#   WP_STUB_BACKUP_DIR    backup dir to corrupt in "corrupt-and-fail" mode
+#
+set -euo pipefail
+
+if [[ -n "${WP_STUB_LOG:-}" ]]; then
+    printf '%s\n' "$*" >> "$WP_STUB_LOG"
+fi
+
+case "${1:-} ${2:-}" in
+    "db export")
+        printf -- '-- stub dump\n' > "$3"
+        ;;
+    "plugin list")
+        echo '[]'
+        ;;
+    "plugin update")
+        case "${WP_STUB_UPDATE_MODE:-ok}" in
+            fail)
+                exit 1
+                ;;
+            corrupt-and-fail)
+                for f in "${WP_STUB_BACKUP_DIR:?}"/backup_*/plugins.tar.gz; do
+                    printf 'not a tarball' > "$f"
+                done
+                exit 1
+                ;;
+        esac
+        ;;
+esac
+exit 0
